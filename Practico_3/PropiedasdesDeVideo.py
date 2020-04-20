@@ -16,10 +16,10 @@ fourcc_XVID = cv2.VideoWriter_fourcc('X', 'V', 'I', 'D') #.avi
 fps = videoCapture.get(cv2.CAP_PROP_FPS)
 framesize = (int(videoCapture.get(cv2.CAP_PROP_FRAME_WIDTH)),
              int(videoCapture.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-videoWriter = cv2.VideoWriter('output_XVID.avi', fourcc_XVID, fps, framesize, isColor = False)
-
 delay = int(1000/fps)
 success, frame = videoCapture.read()
+#(framesize )= frame.shape [:2]  # otra forma de obtener el ancho y alto 
+videoWriter = cv2.VideoWriter('output_XVID.avi', fourcc_XVID, fps, framesize, isColor = False)
 while success:
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     videoWriter.write(gray)
@@ -31,3 +31,4 @@ while success:
 videoCapture.release()
 videoWriter.release()
 cv2.destroyAllWindows()
+
