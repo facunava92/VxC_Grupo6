@@ -1,4 +1,4 @@
-# Grupo N°6- Catedra de vision por computadora 2020
+## Grupo N°6- Cátedra de visión por computadora 2020
 
 #Integrantes:
 * Amaya, Matias
