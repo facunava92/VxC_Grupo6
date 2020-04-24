@@ -3,6 +3,8 @@
 #   NOTA: No usar ninguna función de las OpenCV, excepto para leer y guardar la imagen
 
 import cv2
+
+
 img = cv2.imread ('hoja.png', cv2.IMREAD_GRAYSCALE)
 
 #image[0, 0] el primero indica y o row(fila) y el segundo x o column(columna).

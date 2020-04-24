@@ -6,6 +6,7 @@
 
 import cv2
 
+
 xi, yi = -1, -1
 xf, yf = -1, -1
 width = 2
@@ -15,19 +16,20 @@ def crop_image(event, x, y, flags, param):
     global xi, yi, xf, yf, drawing, img, width
     if (event == cv2.EVENT_LBUTTONDOWN):
         xi, yi = x, y
+        print('xi= ', xi, 'yi= ', yi)
         drawing = True
     elif (event == cv2.EVENT_MOUSEMOVE):
         if (drawing):
             img = roi.copy()
-            cv2.rectangle(img, (xi, yi), (x,y), (0, 255, 0), width)
+            cv2.rectangle(img, (xi, yi), (x,y), (255, 0, 0), width)
     elif (event == cv2.EVENT_LBUTTONUP):
-        cv2.rectangle(img, (xi, yi), (x,y), (0, 255, 0), width)
         drawing = False
-        if(x < width):
-            x = width
-        if(y < width):
-            y = width
-        xf, yf = x, y
+        if(x < 0):
+            x = 0 
+        if(y < 0):
+            y = 0
+        xf, yf = x, y   
+
 
 img = cv2.imread('lenna.png', cv2.IMREAD_COLOR)
 backup = img.copy()
@@ -50,16 +52,8 @@ while(True):
                 xi, xf = xf, xi
             if (yi > yf):
                 yi, yf = yf, yi
-            
-            if yi!=0:
-                yi=yi+width
-            if xi!=0:
-                xi=xi+width
-            
-            yf = yf-width
-            xf = xf-width
-        
-            roi = img[yi:yf, xi:xf]
+
+            roi = backup[yi:yf, xi:xf]
             img = roi.copy()
             cv2.imwrite('Lenna_crop.png', roi)
             xf, yf = -1, -1

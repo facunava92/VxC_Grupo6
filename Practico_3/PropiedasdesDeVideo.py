@@ -4,6 +4,7 @@
 
 import cv2 
 
+
 videoCapture = cv2.VideoCapture('tierra.avi')
 
 fourcc_XVID = cv2.VideoWriter_fourcc('X', 'V', 'I', 'D') #.avi
