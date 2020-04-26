@@ -14,5 +14,5 @@ def euclidean(image, angle,tx=0, ty=0):
                     ])
 
 
-    rotated = cv2.warpAffine(image, E, (w, h))
-    return rotated
+    euclidean = cv2.warpAffine(image, E, (w, h))
+    return euclidean

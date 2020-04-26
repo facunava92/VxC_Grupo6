@@ -28,3 +28,15 @@ def similarity(image, angle,tx=0, ty=0, scale=1.0):
 
     similarity = cv2.warpAffine(image, S, (w, h))
     return similarity
+
+def affine(image, angle,tx=0, ty=0, scale=1.0):
+    (h, w) = image.shape[:2]
+    angle = np.radians(angle)   #Giro antihorario
+
+    S = np.float32([[scale*np.cos(angle),  scale*np.sin(angle), tx],
+                    [-scale*np.sin(angle), scale*np.cos(angle), ty],
+                    ])
+
+
+    affine = cv2.warpAffine(image, S, (w, h))
+    return affine
