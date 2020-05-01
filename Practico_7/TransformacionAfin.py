@@ -1,13 +1,29 @@
 #!/usr/bin/python
-# Usando como base el programa anterior, escribir un programa que permita seleccionar un rectángulo de una imagen, luego
-#   “g” guarda la imagen dentro del rectángulo en el disco,
-#   “r” restaura la imagen original y permite realizar nuevamente la selección,
-#   “q” finaliza.
+#Teniendo en cuenta que, una transformación afín se representa con una matriz de 2 × 3 (tiene 6 grados de libertad y
+#puede ser recuperada con 3 puntos no colineales.
+#   A. Crear una método que compute la transformación afín entre los 3 puntos seleccionados
+#   B. Usando como base el programa anterior, escriba un programa que
+#    con la letra “a” permita seleccionar con el mouse 3 puntos no colineales en una imagen e incruste entre estos puntos seleccionados una segunda imagen.
+#   Ayuda
+#           cv2.getAffineTransform
+#           cv2.warpAffine
+#   Generar una máscara para insertar una imagen en otra
 
 import cv2
 import numpy as np
 
+
 selected_points = []
+
+
+def affine(image, src_pts, dst_pts):
+
+    (h, w) = image.shape[:2]
+    
+    A = cv2.getAffineTransform(src_pts, dst_pts)
+    affine= cv2.warpAffine(img, A, (w, h), borderValue=(255, 255, 255))
+    
+    return affine 
 
 
 def mouse_callback (event, x, y, flags, param):
@@ -15,7 +31,7 @@ def mouse_callback (event, x, y, flags, param):
 
     if event == cv2.EVENT_LBUTTONDOWN:
         selected_points.append([x, y])
-        cv2.circle(show_img, (x, y), 3, (0, 255, 0), -1)
+        cv2.circle(show_img, (x, y), 3, (200, 200, 0), -1)
 
 
 def select_points(image, points_num):
@@ -54,8 +70,8 @@ while (True):
         dst_pts = select_points(show_img, 3)
         img = backup_src.copy()
         img_dst = backup_dst.copy()
-        affine_m = cv2.getAffineTransform(src_pts, dst_pts)
-        img = cv2.warpAffine(img, affine_m, (w, h), borderValue=(255, 255, 255))
+
+        img =  affine(img, src_pts, dst_pts)
 
         img2gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         for row in range(h):
