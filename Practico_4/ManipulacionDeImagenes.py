@@ -5,7 +5,7 @@
 #   “q” finaliza.
 
 import cv2
-from euclidean import euclidean
+#from euclidean import euclidean
 
 xi, yi, xf, yf = 0, 0, 0, 0
 drawing = False
@@ -47,6 +47,7 @@ while(True):
         roi = backup.copy()
         xi, yi = 0, 0
         xf, yf = img.shape[0], img.shape[1]
+
 
     elif option == ord('g'):
         xi, xf = min(xi, xf), max(xi, xf)
