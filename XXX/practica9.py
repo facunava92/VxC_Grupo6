@@ -1,6 +1,7 @@
 
 import cv2
 import numpy as np
+import math
 
 
 selected_points = []
@@ -36,8 +37,6 @@ def distiancia (ptos):
     dst = np.linalg.norm(a-b)  #calcula la distancia 
     return dst
 
-
-
 img = cv2.imread('card.jpg', cv2.IMREAD_COLOR) #leo la imagen
 backup = img.copy()
 
@@ -51,10 +50,12 @@ while (True):
         cv2.destroyAllWindows()
         show_img = backup.copy()
         puntos = select_points(show_img, 2)
-        distanc=distiancia (puntos)
-        print ("la distancia entre los ptos son", distanc )
+        distan=distiancia(puntos)
+        distanc=round(distan)
+        dist=distanc*0.01538461538   # patron 
+        #print ("la distancia entre los ptos son",distanc, "cm" )
+        print ("la distancia entre los ptos son", "{:.1f}".format(dist) , "cm")
 
     elif option == ord('q'):
         break
-
 
