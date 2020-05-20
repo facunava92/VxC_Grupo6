@@ -5,7 +5,6 @@
 #   “q” finaliza.
 
 import cv2
-#from euclidean import euclidean
 
 xi, yi, xf, yf = 0, 0, 0, 0
 drawing = False

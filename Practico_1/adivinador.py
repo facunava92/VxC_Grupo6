@@ -4,7 +4,6 @@
 #   La función adivina debe recibir un parámetro que indique la cantidad de intentos permitidos.
 
 from fn_adivina import adivinar
-import random
 
 print('\t\t\tPráctico 1 Visión por Computadora\n')
 print('\t#Programa para adivinar un número aleatorio dentro del rango 0-100')

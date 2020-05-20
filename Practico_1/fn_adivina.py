@@ -4,7 +4,7 @@
 #   El número secreto debe estar entre 0 y 100, y debe ser generado dentro de la función.
 #   La función adivina debe recibir un parámetro que indique la cantidad de intentos permitidos.
 
-import random
+import rando
 
 def adivinar(intentos):
 
