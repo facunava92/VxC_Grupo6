@@ -1,0 +1,53 @@
+#!/usr/bin/python
+
+import cv2
+import numpy as np
+
+cap = cv2.VideoCapture("/dev/v4l/by-id/usb-ARKMICRO_USB2.0_PC_CAMERA-video-index0")
+pattern_size = (9, 6)
+samples = []
+n = 0
+while True:
+    success, frame = cap.read()
+    if not success:
+        break
+
+    res, corners = cv2.findChessboardCorners(frame, pattern_size)
+
+    img_show = frame.copy()
+    cv2.drawChessboardCorners(img_show, pattern_size, corners, res)
+    cv2.putText(img_show, 'Muestras tomadas : %d' % len(samples), (0, 40), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2)
+    cv2.imshow('chessboard', img_show)
+
+    wait_time = 0 if res else 30
+    k = cv2.waitKey(wait_time)
+
+    if k == ord('s') and res:
+        cv2.imwrite('tmp/img_{}.jpg'.format(n), frame)
+        samples.append((cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY), corners))
+        n += 1
+    elif k == 27:
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+
+criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 1e-3)
+
+for i in range(len(samples)):
+    img, corners = samples[i]
+    corners = cv2.cornerSubPix(img, corners, (10, 10), (-1, -1), criteria)
+
+pattern_points = np.zeros((np.prod(pattern_size), 3), np.float32)
+pattern_points[:, :2] = np.indices(pattern_size).T.reshape(-1,2)
+
+images, corners = zip(*samples)
+
+pattern_points = [pattern_points]*len(corners)
+
+rms, camera_matrix, dist_coef, rvecs, tvects =\
+    cv2.calibrateCamera(pattern_points, corners, images[0].shape, None, None)
+
+np.save('camera_mat.npy', camera_matrix)
+np.save('dist_coefs.npy', dist_coef)
+

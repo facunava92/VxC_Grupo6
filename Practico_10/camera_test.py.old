@@ -1,0 +1,19 @@
+#!/usr/bin/python
+# Codigo de pruega para camara usb
+
+import cv2
+
+capture = cv2.VideoCapture("/dev/v4l/by-id/usb-ARKMICRO_USB2.0_PC_CAMERA-video-index0")
+
+while True:
+    success, frame = capture.read()
+    while success:
+        cv2.imshow('frame', frame)
+        key = cv2.waitKey(3)
+        success, frame = capture.read()
+        if key == 27:
+            print('Escape')
+            break
+
+    capture.release()
+    cv2.destroyAllWindows()

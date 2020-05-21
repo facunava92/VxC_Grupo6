@@ -1,13 +1,16 @@
-
-
+#!/usr/bin/python
+#Capturar una imagen de un plano sobre la cualse asiente una figura de tamaño conocido.
+#Luego usando esta figura como patron, medir la distancia real entre dos puntos cualquiera que se encuentren en la imagen.
 
 
 import cv2
 import numpy as np
 import math
 
+
 selected_points = []
 patron=0.01990049751        # patron  de referencia en cm/pixeles
+
 
 def mouse_callback (event, x, y, flags, param):
     global selected_points, show_img
@@ -22,6 +25,7 @@ def select_points(image, points_num):
     cv2.namedWindow('Seleccione_2_Puntos')
     cv2.setMouseCallback('Seleccione_2_Puntos', mouse_callback)
 
+
     while True:
         cv2.imshow('Seleccione_2_Puntos', image)
         k = cv2.waitKey(1)
@@ -31,11 +35,13 @@ def select_points(image, points_num):
 
     return np.array(selected_points, dtype=np.float32)
 
+
 def distancia (ptos):
     a= ptos [0]
     b=ptos [1]
     dst = np.linalg.norm(a-b)  #calcula la distancia 
     return dst
+
 
 img = cv2.imread('card.jpg', cv2.IMREAD_COLOR) 
 backup = img.copy()
