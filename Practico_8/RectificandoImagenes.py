@@ -50,7 +50,7 @@ def select_points(image, points_num):
     return np.array(selected_points, dtype=np.float32)
 
 
-img = cv2.imread('card.jpg', cv2.IMREAD_COLOR)
+img = cv2.imread('tarjeta.jpg', cv2.IMREAD_COLOR)
 backup = img.copy()
 (h, w) = img.shape[:2]
 
@@ -63,6 +63,7 @@ while (True):
         show_img = backup.copy()
         img = backup.copy()
         src_pts = select_points(show_img, 4)
+        print (src_pts)
         dst_pts = np.array([[0, 0], [w, 0], [w, h], [0, h]], dtype=np.float32)
         img = perspective(img, src_pts, dst_pts)
 
