@@ -46,7 +46,7 @@ cv2.destroyAllWindows()
 ud_img = cv2.undistort(img, camera_matrix, dist_coefs)
 cv2.imwrite('undistortioned.jpg', ud_img)
 
-horizontal_concat = np.concatenate((img_show, ud_img), axis=1)
+horizontal_concat = np.concatenate((img, ud_img), axis=1)
 
 cv2.imshow('result', horizontal_concat)
 cv2.waitKey()
