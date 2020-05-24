@@ -11,11 +11,9 @@ def perspective(image, src_pts, dst_pts):
     rectified = cv2.warpPerspective(img, M, (w, h), borderMode=cv2.BORDER_CONSTANT)
     return rectified
 
-def g_contour(image):
+def g_contour(image,ud_img):
     edges = cv2.Laplacian(gray_img, cv2.CV_8U, gray_img, ksize=5)
     edges = cv2.Canny(edges, 100, 300)
-    cv2.imshow('canny', edges)
-
     contours, hierachy = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     
     for c in contours:
@@ -23,36 +21,43 @@ def g_contour(image):
             continue
 
         x, y, w, h = cv2.boundingRect(c)
-        
-        cv2.rectangle(img, (x,y), (x+w, y+h), (0, 255, 0), 2)
-        base=w*patron
-        altura=h*patron
-        cv2.putText(img, "{:.1f} x {:.1f} ".format(base,altura), (x-4 , y-5 ), cv2.FONT_HERSHEY_COMPLEX,
-                            0.29,(0, 0, 255), 1)
 
+        cv2.rectangle(img, (x,y), (x+w, y+h), (0, 255, 0), 2)
+        
+        base=round (w*patron ,1)
+        altura=round (h*patron , 1)
+        if base == 2.4 or base==2.5:
+            radio = base/2
+            cv2.putText(img, "Rad: {:.2f}  ".format(radio), (x-1, y+70), cv2.FONT_HERSHEY_COMPLEX,0.29,(0, 0, 255), 1)
+            cv2.putText(img, "{:.1f} x {:.1f} ".format(base,altura), (x-9 , y-7 ), cv2.FONT_HERSHEY_COMPLEX,0.29,(0, 0, 255), 1)
+        else:
+            cv2.putText(img, "{:.1f} x {:.1f} cm ".format(base,altura), (x+9, y-10 ), cv2.FONT_HERSHEY_COMPLEX,0.4,(0, 0, 255), 1)
+
+    horizontal_concat = np.concatenate((ud_img, img), axis=1)
+    cv2.imshow('resultado', horizontal_concat)
+    cv2.imwrite('RESULTADO.png', horizontal_concat)
 
 img = cv2.imread('prueba2.JPG')
 bkup = img.copy()
-
+cv2.imshow('perspective', img)
 
 while True:
-    cv2.imshow('perspective', img)
     option = cv2.waitKey(1) & 0b11111111  # enmascaro con una and
-
     if option == ord('h'):
         img = bkup.copy()
+        m = bkup.copy()
         cv2.destroyAllWindows()
         dst_pts = np.array([[53, 105], [253, 105], [253, 305], [53, 305]], dtype=np.float32)
         selected_points = ([[55,  105], [248,  136], [246, 326], [28, 310]])
         src_pts = np.array(selected_points, dtype=np.float32)
         img = perspective(img, src_pts, dst_pts)
-
         gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         gray_img = cv2.GaussianBlur(gray_img, (5, 5), 11)
-        g_contour(gray_img)
-
+        g_contour(gray_img,m)
     elif option == ord('g'):
         cv2.imwrite('rectificado.png', img)
 
     elif option == ord('q'):
         break
+
+
