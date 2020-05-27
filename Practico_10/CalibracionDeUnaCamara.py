@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #Utilizando el template dado calibrar la camara usando las imagenes del patron ya capturadas.
 #Corroborar la correcta calibracion usando el resultado de calibracion obtenido para eliminar la
-#distorcion de las imagenes dadas.
+#distorsion de las imagenes dadas.
 
 import cv2
 import numpy as np

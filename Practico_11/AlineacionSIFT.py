@@ -18,7 +18,7 @@ cv2.drawKeypoints(img1, kp1, kp_img1)
 cv2.drawKeypoints(img2, kp2, kp_img2)
 
 horizontal_concat = np.concatenate((kp_img1, kp_img2), axis=1)
-cv2.imshow('result', horizontal_concat)
+cv2.imshow('key points', horizontal_concat)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
