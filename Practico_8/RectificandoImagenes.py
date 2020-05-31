@@ -50,7 +50,8 @@ def select_points(image, points_num):
     return np.array(selected_points, dtype=np.float32)
 
 
-img = cv2.imread('tarjeta.jpg', cv2.IMREAD_COLOR)
+img = cv2.imread('card.jpg', cv2.IMREAD_COLOR)
+img = cv2.resize(img, (800, 600))
 backup = img.copy()
 (h, w) = img.shape[:2]
 
