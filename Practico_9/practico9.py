@@ -12,7 +12,7 @@ def perspective(image, src_pts, dst_pts):
     return rectified
 
 def g_contour(image,ud_img):
-    edges = cv2.Laplacian(gray_img, cv2.CV_8U, gray_img, ksize=5)
+    edges = cv2.Laplacian(image, cv2.CV_8U, gray_img, ksize=5)
     edges = cv2.Canny(edges, 100, 300)
     contours, hierachy = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     
@@ -59,5 +59,4 @@ while True:
 
     elif option == ord('q'):
         break
-
 

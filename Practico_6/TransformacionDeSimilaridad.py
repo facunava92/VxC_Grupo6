@@ -41,6 +41,7 @@ def crop_image(event, x, y, flags, param):
 
 
 img = cv2.imread('python.jpg', cv2.IMREAD_COLOR)
+img = cv2.resize(img,(800, 600))
 xi, yi = 0, 0
 xf, yf = img.shape[1], img.shape[0]
 backup = img.copy()
@@ -67,12 +68,18 @@ while(True):
         cv2.imwrite('python_crop.png', roi)
     
     elif option == ord('e'):
-        roi = euclidean(img, angle, tx, ty)
+        xi, xf = min(xi, xf), max(xi, xf)
+        yi, yf = min(yi, yf), max(yi, yf)
+        roi = backup[yi:yf, xi:xf]
+        roi = euclidean(roi, angle, tx, ty)
         img = roi.copy()
-        cv2.imwrite('python_euclidean.png', roi)
+        cv2.imwrite('gnu_logo_euclidean.png', roi)
 
     elif option == ord('s'):
-        roi = similarity(img, angle, tx=40, ty=40, scale=1.8)
+        xi, xf = min(xi, xf), max(xi, xf)
+        yi, yf = min(yi, yf), max(yi, yf)
+        roi = backup[yi:yf, xi:xf]
+        roi = similarity(roi, angle, tx=40, ty=40, scale=1.8)
         img = roi.copy()
         cv2.imwrite('python_similarity.png', roi)
     
