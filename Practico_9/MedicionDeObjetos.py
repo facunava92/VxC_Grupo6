@@ -35,9 +35,9 @@ def g_contour(image,ud_img):
 
     horizontal_concat = np.concatenate((ud_img, img), axis=1)
     cv2.imshow('resultado', horizontal_concat)
-    cv2.imwrite('RESULTADO.png', horizontal_concat)
+    cv2.imwrite('resultado.png', horizontal_concat)
 
-img = cv2.imread('prueba2.JPG')
+img = cv2.imread('a_medir.jpg')
 bkup = img.copy()
 cv2.imshow('perspective', img)
 
