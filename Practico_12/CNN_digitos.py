@@ -1,9 +1,9 @@
+#!/usr/bin/python
 import cv2
 import numpy as np
 
 # Constants:
 SIZE_IMAGE = 20
-NUMBER_CLASSES = 10
 
 def deskew(img):
     """Pre-processing of the images"""
@@ -48,7 +48,7 @@ knn.train(train, cv2.ml.ROW_SAMPLE, train_labels)
 
 # Read the input image 
 
-img = cv2.imread('MMM.jpg', cv2.IMREAD_COLOR)
+img = cv2.imread('digits.jpg', cv2.IMREAD_COLOR)
 
 imgBlur = cv2.GaussianBlur(img, (3,3),1)  # 3 1 1 
 imgCanny = cv2.Canny(img,100,210)  # 80 210 
@@ -81,13 +81,11 @@ for digit in digits:
     hog_descriptors.append(hog.compute(deskew(digit)))
 hog_descriptors = np.squeeze(hog_descriptors)
 
-
 # Create KNN:
 knn = cv2.ml.KNearest_create()
 knn.train(train, cv2.ml.ROW_SAMPLE, train_labels)
 ret, result, neighbours, dist = knn.findNearest(hog_descriptors, k=3)
 print(result)
-cv2.imshow("Resulting Image with Rectangular ROIs", img)
 
 # Busca los contornos de la imagen
 contours, hierachy = cv2.findContours(imgDil, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
