@@ -95,6 +95,7 @@ for c in contours:
     cv2.putText(img, str(int(result[i])), (x, y),cv2.FONT_HERSHEY_DUPLEX, 2, (0, 255, 255), 3)
     i+=1
 
+cv2.imwrite('resultado.png', img)
 cv2.imshow("Resulting Image with Rectangular ROIs", img)
 cv2.waitKey()
 
