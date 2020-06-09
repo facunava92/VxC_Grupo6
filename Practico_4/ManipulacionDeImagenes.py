@@ -16,7 +16,7 @@ def crop_image(event, x, y, flags, param):
         xi, yi = x, y
         drawing = True
 
-    elif (event == cv2.EVENT_MOUSEMOVE):
+    elif (event == cv2.EVENT_MOUSEMOVE): 
         if (drawing):
             img = roi.copy()
             cv2.rectangle(img, (xi, yi), (x,y), (255, 0, 0), w)
@@ -29,13 +29,13 @@ def crop_image(event, x, y, flags, param):
 
 
 img = cv2.imread('lenna.png', cv2.IMREAD_COLOR)
-xi, yi = 0, 0
-xf, yf = img.shape[0], img.shape[1]
+xi, yi = 0, 0     
+xf, yf = img.shape[0], img.shape[1] 
 backup = img.copy()
 roi = img.copy()
 
 cv2.namedWindow('Lenna')
-cv2.setMouseCallback('Lenna', crop_image, img)
+cv2.setMouseCallback('Lenna', crop_image, img) 
 
 
 while(True):

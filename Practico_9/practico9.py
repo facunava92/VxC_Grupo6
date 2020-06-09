@@ -12,7 +12,7 @@ def perspective(image, src_pts, dst_pts):
     return rectified
 
 def g_contour(image,ud_img):
-    edges = cv2.Laplacian(gray_img, cv2.CV_8U, gray_img, ksize=5)
+    edges = cv2.Laplacian(image, cv2.CV_8U, gray_img, ksize=5)
     edges = cv2.Canny(edges, 100, 300)
     contours, hierachy = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     
@@ -21,6 +21,7 @@ def g_contour(image,ud_img):
             continue
 
         x, y, w, h = cv2.boundingRect(c)
+        print (w,h)
 
         cv2.rectangle(img, (x,y), (x+w, y+h), (0, 255, 0), 2)
         
@@ -34,12 +35,12 @@ def g_contour(image,ud_img):
             cv2.putText(img, "{:.1f} x {:.1f} cm ".format(base,altura), (x+9, y-10 ), cv2.FONT_HERSHEY_COMPLEX,0.4,(0, 0, 255), 1)
 
     horizontal_concat = np.concatenate((ud_img, img), axis=1)
-    cv2.imshow('resultado', horizontal_concat)
+    cv2.imshow('Resultado', horizontal_concat)
     cv2.imwrite('RESULTADO.png', horizontal_concat)
 
 img = cv2.imread('prueba2.JPG')
 bkup = img.copy()
-cv2.imshow('perspective', img)
+cv2.imshow('Perspective', img)
 
 while True:
     option = cv2.waitKey(1) & 0b11111111  # enmascaro con una and
@@ -47,8 +48,8 @@ while True:
         img = bkup.copy()
         m = bkup.copy()
         cv2.destroyAllWindows()
-        dst_pts = np.array([[53, 105], [253, 105], [253, 305], [53, 305]], dtype=np.float32)
-        selected_points = ([[55,  105], [248,  136], [246, 326], [28, 310]])
+        dst_pts = np.array([[53, 105], [253, 105], [253, 305], [53, 305]], dtype=np.float32) 
+        selected_points = ([[55,  105], [248,  136], [246, 326], [28, 310]]) 
         src_pts = np.array(selected_points, dtype=np.float32)
         img = perspective(img, src_pts, dst_pts)
         gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
