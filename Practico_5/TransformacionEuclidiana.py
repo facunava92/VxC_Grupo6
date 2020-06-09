@@ -37,7 +37,6 @@ def crop_image(event, x, y, flags, param):
         if(y < 0): y = 0
         xf, yf = x, y   
 
-
 img = cv2.imread('gnu_logo.png', cv2.IMREAD_COLOR)
 xi, yi = 0, 0
 xf, yf = img.shape[1], img.shape[0]
@@ -65,7 +64,10 @@ while(True):
         cv2.imwrite('gnu_logo_crop.png', roi)
     
     elif option == ord('e'):
-        roi = euclidean(img, angle, tx, ty)
+        xi, xf = min(xi, xf), max(xi, xf)
+        yi, yf = min(yi, yf), max(yi, yf)
+        roi = backup[yi:yf, xi:xf]
+        roi = euclidean(roi, angle, tx, ty)
         img = roi.copy()
         cv2.imwrite('gnu_logo_euclidean.png', roi)
     
