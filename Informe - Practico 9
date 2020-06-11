@@ -1,3 +1,15 @@
+# Para la distorsión, OpenCV tiene en cuenta los factores radiales y tangenciales. 
+# Para el factor radial se usa la siguiente fórmula:
+#                Xcorrected = x(1+k1*r^2 + k2*r^4 + k3*r^6)
+#                Ycorrected = y(1+k1*r^2 + k2*r^4 + k3*r^6)
+# Entonces, para un antiguo punto de píxel en las (x, y)coordenadas de la imagen de entrada, su posición en la imagen de salida
+# corregida será (Xcorrected, Ycorrected). 
+# La distorsión tangencial se produce porque las lentes que toman imágenes no son perfectamente paralelas al plano de imagen. 
+# Se puede corregir a través de las fórmulas:
+                Xcorrected = x + [2p1xy + p2(r^2+2x^2)]
+                Ycorrected = y + [p1(r^2+2y^2)+ 2p2xy]
+# La presencia de la distorsión radial se manifiesta en forma del efecto "barril" u "ojo de pez".
+
 # Calibración de una cámara
 # El proceso por el cual se calibra una cámara se puede dividir en tres etapas:
 #    • Reunir una cantidad suficiente de información, tanto de imágenes como patrones del tablero de ajedrez.
@@ -89,3 +101,4 @@ horizontal_concat = np.concatenate((img, ud_img), axis=1)
 cv2.imshow('result', horizontal_concat)
 cv2.waitKey()
 cv2.destroyAllWindows()
+
