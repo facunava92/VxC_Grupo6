@@ -15,14 +15,14 @@ img = cv2.resize(img, (800, 600))
 img_show = img.copy()
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-res, corners = cv2.findChessboardCorners(img_show, pattern_size)
-criteria = (cv2.TERM_CRITERIA_MAX_ITER | cv2.TERM_CRITERIA_EPS, 30, 1e-3)
+res, corners = cv2.findChessboardCorners(img_show, pattern_size)              # Se obtiene una aprox de las coordenadas de las esquinas 
+criteria = (cv2.TERM_CRITERIA_MAX_ITER | cv2.TERM_CRITERIA_EPS, 30, 1e-3)     # Aumento las precision usando "criteria" y "corners"
 corners = cv2.cornerSubPix(gray, corners, (10, 10), (-1, -1), criteria)
-
-h_corners = cv2.undistortPoints(corners, camera_matrix, dist_coefs)
+    #corners (img a tratar, coordenadas aprox, dim de la zona interes, zona ignorada (-1,-1) no indica zonas) 
+h_corners = cv2.undistortPoints(corners, camera_matrix, dist_coefs) # ELimina distorsion
 h_corners = np.c_[h_corners.squeeze(), np.ones(len(h_corners))]
 
-img_pts, _ = cv2.projectPoints(h_corners, (0, 0, 0), (0, 0, 0), camera_matrix, None)
+img_pts, _ = cv2.projectPoints(h_corners, (0, 0, 0), (0, 0, 0), camera_matrix, None) #Agregamos la coordenada z para proyectar 3D
 
 for c in corners:
     cv2.circle(img_show, tuple(c[0]), 10, (0, 255, 0), 2)
