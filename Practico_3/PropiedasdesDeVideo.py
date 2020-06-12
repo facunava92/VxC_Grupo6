@@ -4,6 +4,7 @@
 
 import cv2 
 
+
 videoCapture = cv2.VideoCapture('tierra.avi')
 
 fourcc_XVID = cv2.VideoWriter_fourcc('X', 'V', 'I', 'D') #.avi
@@ -16,7 +17,7 @@ fourcc_XVID = cv2.VideoWriter_fourcc('X', 'V', 'I', 'D') #.avi
 fps = videoCapture.get(cv2.CAP_PROP_FPS)
 framesize = (int(videoCapture.get(cv2.CAP_PROP_FRAME_WIDTH)),
              int(videoCapture.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-delay = int(30)
+delay = int(1000/fps)
 success, frame = videoCapture.read()
 #(framesize )= frame.shape [:2]  # otra forma de obtener el ancho y alto 
 videoWriter = cv2.VideoWriter('output_XVID.avi', fourcc_XVID, fps, framesize, isColor = False)
