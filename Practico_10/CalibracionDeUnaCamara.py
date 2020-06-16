@@ -52,3 +52,4 @@ cv2.imshow('result', horizontal_concat)
 cv2.waitKey()
 
 cv2.destroyAllWindows()
+
