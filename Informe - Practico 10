@@ -1,5 +1,5 @@
 # Para la distorsión, OpenCV tiene en cuenta los factores radiales y tangenciales. 
-# Para el factor radial se usa la siguiente fórmula:
+# Para el factor radial se usa la siguiente fórmula: 
 #                Xcorrected = x(1+k1*r^2 + k2*r^4 + k3*r^6)
 #                Ycorrected = y(1+k1*r^2 + k2*r^4 + k3*r^6)
 # Entonces, para un antiguo punto de píxel en las (x, y)coordenadas de la imagen de entrada, su posición en la imagen de salida
