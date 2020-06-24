@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
@@ -36,22 +38,4 @@ model.fit(x_train , y_train , epochs=5)   # entrenamos el modelo    ( le vamos a
 
 model.evaluate(x_test, y_test)
 
-image = cv2.imread('novee.png',cv2.IMREAD_COLOR)
-image  = cv2.resize(image,(28, 28))
-grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-image_n = cv2.bitwise_not(grayImage)
-image_n = image_n[:,:].reshape(1,28,28,1)
-image_n = image_n.astype('float32')
-image_n /= 255.
-predict=model.predict(image_n)
-preds = np.argmax(predict, axis=1)  
-
-#for print image to 28x28 
-new_image=image_n.reshape(28,28)
-fig, ax = plt.subplots()
-fig.subplots_adjust()
-ax.imshow(new_image, cmap='binary')
-xlabel = "Predic: {}".format(preds)
-ax.set_xlabel(xlabel)
-plt.show()
-
+model.save('saved_model/my_model') 
