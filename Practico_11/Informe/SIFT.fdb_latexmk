@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1593125172 "SIFT.tex" "SIFT.pdf" "SIFT" 1593125173
+["pdflatex"] 1593125491 "SIFT.tex" "SIFT.pdf" "SIFT" 1593125492
   "/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc" 1572595918 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1572595918 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmr10.tfm" 1572595918 1296 45809c5a464d5f32c8f98ba97c1bb47f ""
@@ -109,13 +109,13 @@
   "Imagenes/sift_mtch.png" 1593123438 2102476 4744cba13c5adbe15ab91a02ffefcf58 ""
   "Imagenes/sift_mtch_nf.png" 1593123438 2115012 af304039a732a5a9090822671749789a ""
   "Imagenes/sift_out.png" 1593124785 213680 5a3f9d8626579bbd43a695a7e9dbc8e5 ""
-  "SIFT.aux" 1593125173 3259 ed22e3b78fe486200baf4688416d1ad0 "pdflatex"
-  "SIFT.out" 1593125173 88 ad7ea95f2e9d2e70725a21195764067b "pdflatex"
-  "SIFT.tex" 1593125172 7959 7a42ef0061e3d9849bdaedd851f3a9e0 ""
-  "SIFT.toc" 1593125173 155 17f19f24b47dfdec07de402214ea5a02 "pdflatex"
+  "SIFT.aux" 1593125492 3259 ed22e3b78fe486200baf4688416d1ad0 "pdflatex"
+  "SIFT.out" 1593125492 88 ad7ea95f2e9d2e70725a21195764067b "pdflatex"
+  "SIFT.tex" 1593125487 7959 61e031e76048b99e26bc996960870d15 ""
+  "SIFT.toc" 1593125492 155 17f19f24b47dfdec07de402214ea5a02 "pdflatex"
   (generated)
+  "SIFT.toc"
+  "SIFT.pdf"
   "SIFT.out"
   "SIFT.aux"
-  "SIFT.pdf"
-  "SIFT.toc"
   "SIFT.log"
