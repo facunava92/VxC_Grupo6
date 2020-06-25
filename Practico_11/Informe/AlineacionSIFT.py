@@ -24,10 +24,11 @@ cv2.waitKey(0)
 cv2.destroyAllWindows()
 
 matcher = cv2.BFMatcher(cv2.NORM_L2)
+
 matches_01 = matcher.knnMatch(des1, des2, k=2)
 matches_10 = matcher.knnMatch(des2, des1, k=2)
 
-# Guardamos los buenos matches usando el test de razón de Lowe
+# Guardamos los buenos matches usando el test de razon de Lowe
 def ratio_test(matches, ratio_thr):
     good_matches = []
     for m in matches:
@@ -41,12 +42,20 @@ good_matches01 = ratio_test(matches_01, RATIO_THR)
 good_matches10 = ratio_test(matches_10, RATIO_THR)
 
 good_matches10_ = {(m.trainIdx, m.queryIdx) for m in good_matches10}
-final_matches = [m for m in good_matches01 if (m.queryIdx, m.trainIdx) in good_matches10_]
+final_matches= [m for m in good_matches01 if (m.queryIdx, m.trainIdx) in good_matches10_]
+
+matches_00 = []
+for m,n in matches_01:
+    matches_00.append(m)
+
+img_show_nf = cv2.drawMatches(img1, kp1, img2, kp2, matches_00, None, flags=cv2.DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS)
 
 img_show = cv2.drawMatches(img1, kp1, img2, kp2, final_matches, None, flags=cv2.DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS)
 
+vertical_concat = np.concatenate((img_show_nf, img_show), axis=0)
+cv2.imwrite('sift_mtch_nf.png', img_show_nf)
 cv2.imwrite('sift_mtch.png', img_show)
-cv2.imshow('matches', img_show)
+cv2.imshow('matches sin y con filtrado', vertical_concat)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
@@ -54,7 +63,7 @@ if(len(final_matches) > MIN_MATCH_COUNT):
     src_pts = np.float32([kp1[m.queryIdx].pt for m in final_matches]).reshape(-1, 1, 2)
     dst_pts = np.float32([kp2[m.trainIdx].pt for m in final_matches]).reshape(-1, 1, 2)
 
-    H, mask = cv2.findHomography(dst_pts, src_pts, cv2.RANSAC, 5.0) # Computamos la homografía con RANSAC
+    H, mask = cv2.findHomography(dst_pts, src_pts, cv2.RANSAC, 3.0) 
 
 wimg2 = cv2.warpPerspective(img2, H, img2.shape[:2][::-1])
 

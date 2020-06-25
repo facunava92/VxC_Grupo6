@@ -114,9 +114,9 @@
 	
 	En ese orden indican, el número de puntos claves a encontrar y retornar, número de niveles en la escala piramidal a usar, dos límites para ajustar la sensibilidad del algoritmo, la variación sigma para pre filtrar la imagen. Sin restarle importancia al resto de los argumentos, probablemente el más importante sea el primero para determinar la cantidad de puntos claves a buscar seguido por el sigma. Este último controla el tamaño máximo de los objetos que no son de interés, y es útil a la hora de remover el ruido o detalles innecesarios de la imagen. 
 	
-	\lstinputlisting[language=Python, firstline=11, lastline=15]{AlineacionSIFT.py}
+	\lstinputlisting[language=Python, firstline=13, lastline=15]{AlineacionSIFT.py}
 
-	Luego dibujamos los puntos encontrados cada imagen, el resultado se puede ver en la imagen \textcolor{blue}{\textbf{\ref{fig:sift_kp}}}.
+	Luego dibujamos los puntos encontrados en cada imagen, el resultado se puede ver en la imagen \textcolor{blue}{\textbf{\ref{fig:sift_kp}}}.
 	\lstinputlisting[language=Python, firstline=17, lastline=18]{AlineacionSIFT.py}
 
 	\begin{figure}[H]
@@ -128,9 +128,47 @@
 
 	Una vez encontrados los puntos claves por los descriptores, procedemos a encontrar las correspondencias entre ellos, opencv provee una gran variedad de herramientas para esto, el método más obvio y simple es el de comparar todos los posibles pares y elegir los mejores. Hay que destacar que este método es extremadamente lento. 
 
-	Usamos la función \textcolor{orange}{\textbf{\textit{cv2.BFMatcher\_createi()}}}, el cual toma una bandera que configura una distancia para la comparación entre descriptores y habilita la bandera de chequeo cruzado.
+	Usamos la función \textcolor{orange}{\textbf{\textit{cv2.BFMatcher\_create()}}}, el cual toma una bandera que configura una distancia para la comparación entre descriptores y habilita la bandera de chequeo cruzado.
 
 	\lstinputlisting[language=Python, firstline=26, lastline=26]{AlineacionSIFT.py}
 
+		Una vez encontrada las correlaciones, se filtran los resultados de dos maneras distintas. Primero a través del método del vecino mas cercano (\textit{knn}), al cual se le aplica una comprobación del radio, comprueba dos radios entre el primer y segundo elemento, si es mayor a 0.8 (criterio de \textit{Lowe} = 0.7) se descarta, esto permite eliminar cerca del 90\% de falsas correspondencias, mientras que descarta solo el 5\% de correspondencias correctas.
 
+	\lstinputlisting[language=Python, firstline=28, lastline=42]{AlineacionSIFT.py}
+
+	El segundo filtrado se hace comprobando si las correspondencias encontradas en \textit{img2} para los puntos claves en \textit{img1} son los mismo encontrados en \textit{img1} para los puntos claves en \textit{img2}, es decir que solo conservamos las correspondencias encontradas en ambas direcciones.
+	
+	\lstinputlisting[language=Python, firstline=44, lastline=45]{AlineacionSIFT.py}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{Imagenes/sift_mtch_nf.png}
+		\caption{Correspondencias entre las imágenes sin filtrar.}
+		\label{fig:sift_mtch_nf}
+	\end{figure} 
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{Imagenes/sift_mtch.png}
+		\caption{Correspondencias entre las imágenes luego de filtrado}
+		\label{fig:sift_mtch}
+	\end{figure} 
+	
+	El siguiente paso es calcular la matriz homográfica entre las dos imágenes utilizando el algoritmo de \textit{RANSAC} (\textit{RANdom SAmple Consensus}), a través de la función \textcolor{orange}{\textbf{cv2.findHomography()}}, una vez que conseguimos la matriz, aplicamos la transformación perspectiva sobre una de las imágenes.
+
+	\lstinputlisting[language=Python, firstline=62, lastline=69]{AlineacionSIFT.py}
+
+	Finalmente, ponderamos la imagen a la cual le aplicamos la transformación a un valor ``alpha" y la otra imagen con su complemento y las unimos, dando como resultado la imagen que se muestra en \textcolor{blue}{\textbf{\ref{fig:sift_out}}}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{Imagenes/sift_out.png}
+		\caption{Resultado final de aplicar el descriptor SIFT y aplicar la transformación homográfica.}
+		\label{fig:sift_out}
+	\end{figure} 
+
+	\begin{thebibliography}{0}
+		\bibitem{}  OpenCV 3 Computer Vision with Python Cookbook 
+		\bibitem{}  Introduction to SIFT (Scale-Invariant Feature Transform) [OpenCV-Python Tutorials]
+	\end{thebibliography}
 \end{document}
