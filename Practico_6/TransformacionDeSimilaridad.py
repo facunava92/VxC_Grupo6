@@ -17,7 +17,7 @@ from fn_transform import euclidean
 from fn_transform import similarity
 
 xi, yi, xf, yf = 0, 0, 0, 0
-angle, tx, ty = 30, 80, 80
+angle, tx, ty = 45, 80, 80
 scale = 2.0
 drawing = False
 

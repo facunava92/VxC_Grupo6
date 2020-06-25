@@ -7,12 +7,14 @@ from fn_adivina import adivinar
 
 print('\t\t\tPráctico 1 Visión por Computadora\n')
 print('\t#Programa para adivinar un número aleatorio dentro del rango 0-100')
-intentos = int(input('\tIngrese la cantidad de intentos permitidos: '))
-flag, i = adivinar(intentos)
+intentos = int(input('\tIngrese la cantidad de intentos permitidos: '))  
+flag, i = adivinar(intentos)  #esa variable intentos mando a la funcion adivinar
 
-if(flag):
+if(flag):  # si es TRUE imprime los intenos   .... si es FALSE i> a los intenos  (osea me pase de los intentos )
     print('\n')
-    print('\tFelicitaciones, ha encontrado número correcto en el intento {}!!'.format(i))
+    print('\tFelicitaciones, ha encontrado número correcto en el intento {}!!'.format(i)) #devuelve la varibal formateada al print 
 else:
     print('\n')
     print('\tHa alcanzado la cantidad máxima de intentos, vuelva a intentarlo!!')
+
+
