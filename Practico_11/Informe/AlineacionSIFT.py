@@ -18,6 +18,7 @@ cv2.drawKeypoints(img1, kp1, kp_img1,(0, 255, 0), flags=cv2.DRAW_MATCHES_FLAGS_D
 cv2.drawKeypoints(img2, kp2, kp_img2,(0, 0 ,255), flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
 horizontal_concat = np.concatenate((kp_img1, kp_img2), axis=1)
+cv2.imwrite('sift_kp.png', horizontal_concat)
 cv2.imshow('key points', horizontal_concat)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
@@ -44,6 +45,7 @@ final_matches = [m for m in good_matches01 if (m.queryIdx, m.trainIdx) in good_m
 
 img_show = cv2.drawMatches(img1, kp1, img2, kp2, final_matches, None, flags=cv2.DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS)
 
+cv2.imwrite('sift_mtch.png', img_show)
 cv2.imshow('matches', img_show)
 cv2.waitKey(0)
 cv2.destroyAllWindows()

@@ -1,11 +1,12 @@
 #!/usr/bin/python
 #Utilizando el template dado calibrar la camara usando las imagenes del patron ya capturadas.
 #Corroborar la correcta calibracion usando el resultado de calibracion obtenido para eliminar la
-#distorcion de las imagenes dadas.
+#distorsion de las imagenes dadas.
 
 import cv2
 import numpy as np
 
+<<<<<<< HEAD
 camera_matrix = np.load('camera_mat.npy')        #carga una matriz guradada en un archivo (MATRIZ DE CAMARA)
 dist_coefs = np.load('dist_coefs.npy')              #parametros de distorcionk k p1 p2 
 pattern_size = (11, 8)                          #numero de esquinas internas 
@@ -24,6 +25,26 @@ h_corners = np.c_[h_corners.squeeze(), np.ones(len(h_corners))]  #aca saco una d
 
 img_pts, _ = cv2.projectPoints(h_corners, (0, 0, 0), (0, 0, 0), camera_matrix, None) #Proyecta puntos 3D a un plano de imagen. matriz de puntos de objeto , Vector de rotación ,  Vector de traducción.
 #la matriZ a 
+=======
+camera_matrix = np.load('camera_mat.npy')
+dist_coefs = np.load('dist_coefs.npy')
+pattern_size = (11, 8)
+
+img = cv2.imread('distortioned.JPG')
+img = cv2.resize(img, (800, 600))
+img_show = img.copy()
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+res, corners = cv2.findChessboardCorners(img_show, pattern_size)              # Se obtiene una aprox de las coordenadas de las esquinas 
+criteria = (cv2.TERM_CRITERIA_MAX_ITER | cv2.TERM_CRITERIA_EPS, 30, 1e-3)     # Aumento las precision usando "criteria" y "corners"
+corners = cv2.cornerSubPix(gray, corners, (10, 10), (-1, -1), criteria)
+    #corners (img a tratar, coordenadas aprox, dim de la zona interes, zona ignorada (-1,-1) no indica zonas) 
+h_corners = cv2.undistortPoints(corners, camera_matrix, dist_coefs) # ELimina distorsion
+h_corners = np.c_[h_corners.squeeze(), np.ones(len(h_corners))]
+
+img_pts, _ = cv2.projectPoints(h_corners, (0, 0, 0), (0, 0, 0), camera_matrix, None) #Agregamos la coordenada z para proyectar 3D
+
+>>>>>>> efe76e936b11743d61d5e081f5ef726f363748e7
 for c in corners:
    cv2.circle(img_show, tuple(c[0]), 10, (0, 255, 0), 2)
 
@@ -54,3 +75,4 @@ cv2.imshow('result', horizontal_concat)
 cv2.waitKey()
 
 cv2.destroyAllWindows()
+
