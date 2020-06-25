@@ -38,9 +38,9 @@ def crop_image(event, x, y, flags, param):
         xf, yf = x, y   
 
 
-img = cv2.imread('gnu_logo.png', cv2.IMREAD_COLOR)
-xi, yi = 0, 0
-xf, yf = img.shape[1], img.shape[0]
+img = cv2.imread('gnu_logo.png', cv2.IMREAD_COLOR)  #leo la imagen 
+xi, yi = 0, 0                       #harcodeo las variables xi yi 
+xf, yf = img.shape[1], img.shape[0]     #harcodeo  las variables fianles 
 backup = img.copy()
 roi = img.copy()
 
@@ -63,7 +63,7 @@ while(True):
         roi = backup[yi:yf, xi:xf]
         img = roi.copy()
         cv2.imwrite('gnu_logo_crop.png', roi)
-    
+
     elif option == ord('e'):
         roi = euclidean(img, angle, tx, ty)
         img = roi.copy()
@@ -71,3 +71,4 @@ while(True):
     
     elif option == ord('q'):
         break
+

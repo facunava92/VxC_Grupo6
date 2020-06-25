@@ -12,27 +12,18 @@
 import cv2
 import numpy as np
 
-
 selected_points = []
-
-
 def affine(image, src_pts, dst_pts):
-
     (h, w) = image.shape[:2]
-    
     A = cv2.getAffineTransform(src_pts, dst_pts)
     affine= cv2.warpAffine(img, A, (w, h), borderValue=(255, 255, 255))
     
     return affine 
-
-
 def mouse_callback (event, x, y, flags, param):
     global selected_points, show_img
-
     if event == cv2.EVENT_LBUTTONDOWN:
         selected_points.append([x, y])
         cv2.circle(show_img, (x, y), 3, (200, 200, 0), -1)
-
 
 def select_points(image, points_num):
     global selected_points
@@ -49,14 +40,14 @@ def select_points(image, points_num):
 
     return np.array(selected_points, dtype=np.float32)
 
-
 img = cv2.imread('opencv-logo.png', cv2.IMREAD_COLOR)
 img_dst = cv2.imread('ojo.jpg', cv2.IMREAD_COLOR)
-img_dst = cv2.resize(img_dst, img.shape[1::-1])
+img_dst = cv2.resize(img_dst, img.shape[1::-1])  # redimenciono inicio: fin: paso  invierte los 
 
-backup_src = img.copy()
-backup_dst = img_dst.copy()
+backup_src = img.copy()  #python
+backup_dst = img_dst.copy() # ojo
 (h, w) = img.shape[:2]
+
 
 while (True):
     cv2.imshow('Affine', img)
@@ -64,27 +55,38 @@ while (True):
 
     if option == ord('a'):
         cv2.destroyAllWindows()
-        show_img = backup_src.copy()
-        src_pts = select_points(show_img, 3)
-        show_img = img_dst.copy()
-        dst_pts = select_points(show_img, 3)
-        img = backup_src.copy()
-        img_dst = backup_dst.copy()
+        show_img = backup_src.copy()  
+        src_pts = select_points(show_img, 3)  #le pmando la imagen python , deveulve el array con los 3 ptos 
+        show_img = img_dst.copy()  # imgaen ojo  dimencionada y lo guardo a show_img
+        dst_pts = select_points(show_img, 3)   #le mando la imagen ojo   ,  deveulve el array con los 3 ptos 
+        
+        img = backup_src.copy()   # python
+        img_dst = backup_dst.copy()  #ojo
 
-        img =  affine(img, src_pts, dst_pts)
+        img =  affine(img, src_pts, dst_pts) #ojo , ptos python , ptos ojo
 
-        img2gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        img2gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  #python es img2gray
+        #cv2.imshow('A',img2gray)
         for row in range(h):
             for col in range(w):
-                if img2gray[row, col] <= 20:
-                    img2gray[row, col] = 255
-
-        ret, mask = cv2.threshold(img2gray, 200, 255, cv2.THRESH_BINARY )
+                if img2gray[row, col] <= 20:  #menor o igual a 20 umbral
+                    img2gray[row, col] = 255      #coloco a 255 (blanco )  # obtendrá blanco y negro
+         #generamos mascara
+        #cv2.imshow('A',img2gray)
+        # El primer parámetro aquí es la imagen. El siguiente parámetro es el umbral, estamos eligiendo 200. El siguiente es el valor máximo, que estamos eligiendo como 255. Luego y finalmente tenemos el tipo de umbral, que hemos elegido como THRESH_BINARY
+        ret, mask = cv2.threshold(img2gray, 200, 255, cv2.THRESH_BINARY ) #umbraizacion
+        #cv2.imshow('A',mask)  #blanco y negro la imagen de ptthon 
         mask_inv = cv2.bitwise_not(mask)
-        img1_bg = cv2.bitwise_and(img_dst, img_dst, mask=mask)
-        img2_fg = cv2.bitwise_and(img, img, mask=mask_inv)
+        #cv2.imshow('A',mask_inv)  #imagen inversa lo que era blanco ahora e engro 
+        #cv2.imshow('A',img_dst)
+       # cv2.imshow('r',mask)
+        img1_bg = cv2.bitwise_and(img_dst, img_dst, mask=mask)  #2 imagens ojo y 1 (blanco y negro) ptyon con la mascara del combinacuon lineal de las imagenes  #python combnacion lineal
+        #cv2.imshow('A',img1_bg) # me aparece el ojo con el python negro
+        img2_fg = cv2.bitwise_and(img, img, mask=mask_inv)  #ojo mascara inversa
+      #  cv2.imshow('A',img2_fg)  me aparece todo negro y el pthon a color 
         img2_fg = cv2.blur(img2_fg, (20,20))
-        img = cv2.add(img1_bg, img2_fg)
+        #cv2.imshow('A',img2_fg) desenfocado
+        img = cv2.add(img1_bg, img2_fg) #sumo las 2 imagenes  (hace una combinacion lineal . hacer uq el igane este superpuesta sobre la otra)
 
     elif option == ord('g'):
         cv2.imwrite('Affine_eye.png', img)
