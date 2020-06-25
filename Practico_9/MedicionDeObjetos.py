@@ -35,13 +35,8 @@ def g_contour(image,ud_img):
             cv2.putText(img, "{:.1f} x {:.1f} cm ".format(base,altura), (x+9, y-10 ), cv2.FONT_HERSHEY_COMPLEX,0.4,(0, 0, 255), 1)
 
     horizontal_concat = np.concatenate((ud_img, img), axis=1)
-<<<<<<< HEAD:Practico_9/practico9.py
     cv2.imshow('Resultado', horizontal_concat)
-    cv2.imwrite('RESULTADO.png', horizontal_concat)
-=======
-    cv2.imshow('resultado', horizontal_concat)
     cv2.imwrite('resultado.png', horizontal_concat)
->>>>>>> b81608253497f3242f2d250e165c5606f285f732:Practico_9/MedicionDeObjetos.py
 
 img = cv2.imread('a_medir.jpg')
 bkup = img.copy()
