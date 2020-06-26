@@ -67,7 +67,7 @@ if(len(final_matches) > MIN_MATCH_COUNT):
 
 wimg2 = cv2.warpPerspective(img2, H, img2.shape[:2][::-1])
 
-# Mezclamos ambas imagenes
+# Image blending
 alpha = 0.5
 blend = np.array(wimg2 * alpha + img1 * (1 - alpha), dtype=np.uint8)
 

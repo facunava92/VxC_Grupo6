@@ -274,6 +274,9 @@ INPUT ./Imagenes/sift_mtch.png
 INPUT AlineacionSIFT.py
 INPUT AlineacionSIFT.py
 INPUT AlineacionSIFT.py
+INPUT AlineacionSIFT.py
+INPUT AlineacionSIFT.py
+INPUT AlineacionSIFT.py
 INPUT Imagenes/sift_out.png
 INPUT ./Imagenes/sift_out.png
 INPUT ./Imagenes/sift_out.png

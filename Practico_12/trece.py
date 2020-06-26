@@ -1,53 +1,65 @@
+#!/usr/bin/python
+
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 import os
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Dropout
+from tensorflow.keras.layers import Flatten
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.layers import MaxPooling2D
+from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 #DATADIR= "D:\dataset\PetImages"
 #categorias = ["Dog","Cat"]
-train_datagen=ImageDataGenerator(rescale= 1./255,
-                                shear_range=0.2,
-                                zoom_range=0.2,
-                                horizontal_flip=True)
-test_datagen=ImageDataGenerator(rescale=1./255)
 
-x_train = train_datagen.flow_from_directory('D:/dataset/train',   #train
-                                                    target_size = (64 ,64),
-                                                    batch_size=32,
-                                                    class_mode='binary')
-x_test = test_datagen.flow_from_directory('D:/dataset/test',   #test 
-                                                    target_size = (64 ,64),
-                                                    batch_size=32,
-                                                    class_mode='binary')
+train_datagen = ImageDataGenerator( rescale = 1./255, 
+                                    rotation_range=40,
+                                    shear_range = 0.2,
+                                    zoom_range = 0.2, 
+                                    width_shift_range = 0.2,
+                                    height_shift_range=0.2,                                    
+                                    horizontal_flip = True)
 
-model = tf.keras.Sequential()
+test_datagen  = ImageDataGenerator(rescale = 1./255)
 
-# Must define the input shape in the first layer of the neural network
-model.add(tf.keras.layers.Conv2D(filters=64, kernel_size=2, padding='same', activation='relu', input_shape=(64,64,1))) 
-model.add(tf.keras.layers.MaxPooling2D(pool_size=2))
-model.add(tf.keras.layers.Dropout(0.3))
+#Train
+x_train = train_datagen.flow_from_directory('./dataset/train',  
+                                            target_size = (128,128),
+                                            batch_size=32,
+                                            class_mode='binary')
+#Test
+x_test  = test_datagen.flow_from_directory( './dataset/test',    
+                                            target_size = (128 ,128),
+                                            batch_size=32,
+                                            class_mode='binary')
 
-model.add(tf.keras.layers.Conv2D(filters=32, kernel_size=2, padding='same', activation='relu'))
-model.add(tf.keras.layers.MaxPooling2D(pool_size=2))
-model.add(tf.keras.layers.Dropout(0.3))
+model = Sequential()
+model.add(Conv2D(4, (5,5), activation = 'relu', input_shape = (128, 128, 3)))
+model.add(Conv2D(12,(5,5), strides=(2,2),activation='relu'))
+model.add(Conv2D(24,(4,4), strides=(2,2),activation='relu'))
+model.add(Flatten())
+model.add(Dropout(rate=.25))
+model.add(Dense(200, activation='relu'))
+model.add(Dense(10, activation='softmax'))
 
-model.add(tf.keras.layers.Flatten())
-model.add(tf.keras.layers.Dense(256, activation='relu'))
-model.add(tf.keras.layers.Dropout(0.5))
-model.add(tf.keras.layers.Dense(10, activation='softmax'))
+#Optimizador es el metodo que usamos para minimizar la funcion de error
+optimizer = Adam(decay=.0001)
+model.compile(  optimizer= optimizer,  
+                #funcion de perdida (crossentropia categorica) y sparse es el one-hot 
+                loss = 'sparse_categorical_crossentropy',  
+                #exactitud 
+                metrics= ['accuracy'])  
 
 
-optimizer = tf.keras.optimizers.Adam(decay=.0001)
 
-model.compile(optimizer= 'adam' ,  #optimizador es el metodo que usamos para minimizar la funcion de error  ... 
-              loss = 'sparse_categorical_crossentropy',  # funcionde perdida (crossentropia  categorica )  y sparse es el one-hot 
-              metrics= ['accuracy'] )    # la exactitud 
-
-model.fit(x_train , epochs=5)   # entrenamos el modelo    ( le vamos a mandar los datos de entremsoiento , la entradas y las etiquetas y las epocas = cuantas veces le mostramos los datos de entrenamiento )
-
+#Entrenamos el modelo. Le vamos a mandar los datos de entrenamiento, las entradas y las etiquetas y las epocas 
+#epocas = cuantas veces le mostramos los datos de entrenamiento
+model.fit(x_train , epochs=30)   
 #model.evaluate (x_test , y_test)    # evaluamos sobre el "conjunto testigo "
-
 model.evaluate(x_test)
 
 #for category in categorias: 

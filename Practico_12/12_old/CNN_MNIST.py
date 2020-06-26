@@ -8,7 +8,6 @@ from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Dropout
 from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import Conv2D
-from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.optimizers import Adam
 
 #Load data, dos tuplas, x=imgs y=labels
