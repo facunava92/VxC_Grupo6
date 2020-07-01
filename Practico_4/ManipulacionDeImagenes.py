@@ -16,11 +16,7 @@ def crop_image(event, x, y, flags, param): #evento que sucedio #banderas #pos x 
         xi, yi = x, y                   #asigno las variables xi , yi al x y del mouse (coordenadas )
         drawing = True                    #yo tengo el boton apretado del mause
 
-<<<<<<< HEAD
     elif (event == cv2.EVENT_MOUSEMOVE): #el puntero del mouse se movio ?
-=======
-    elif (event == cv2.EVENT_MOUSEMOVE): 
->>>>>>> efe76e936b11743d61d5e081f5ef726f363748e7
         if (drawing):
             img = roi.copy()
             cv2.rectangle(img, (xi, yi), (x,y), (255, 0, 0), w) # dibujo el ractangulo , pto inicial final y en la posicion actual donde se movio el mouse
@@ -34,14 +30,12 @@ def crop_image(event, x, y, flags, param): #evento que sucedio #banderas #pos x 
         xf, yf = x, y                                #inicializo las coordenadas finales con las ultimas coordenadas del mouse
 
 
-<<<<<<< HEAD
 img = cv2.imread('lenna.png', cv2.IMREAD_COLOR)   #leo la imagen (cargo la imagen )
 xi, yi = 0, 0                               # harcodeo las coordenadas iniciales 
 xf, yf = img.shape[0], img.shape[1]          #me devuelve el tamaño de la imagen y lo guardo en xf , yf
 backup = img.copy()
 roi = img.copy()
 
-=======
 
 img = cv2.imread('lenna.png', cv2.IMREAD_COLOR)
 xi, yi = 0, 0     
@@ -51,7 +45,6 @@ roi = img.copy()
 
 cv2.namedWindow('Lenna')
 cv2.setMouseCallback('Lenna', crop_image, img) 
->>>>>>> efe76e936b11743d61d5e081f5ef726f363748e7
 
 cv2.namedWindow('Lenna')                #creamos una ventana de nombre lenna
 cv2.setMouseCallback('Lenna', crop_image, img)    #y a esa ventana le agregamos un mousecallback , pasamos como parametro la funcion y la imagen  

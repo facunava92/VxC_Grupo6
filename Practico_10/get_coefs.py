@@ -36,8 +36,7 @@ pattern_points = np.zeros((np.prod(pattern_size), 3), np.float32)   # definimos 
 pattern_points[:, :2] = np.indices(pattern_size).T.reshape(-1, 2)    # genera combinaciones (pares de ptos (que la primer esquina esta en 00 , la segundo en 01 )) y eso lo guardamos en las primeras 2 compoenntes del pto objeto
 images, corners = zip(*samples)        #los agrega en una tupla y lo devuelve.                                         #
 pattern_points = [pattern_points]*len(corners)             #
-rms, camera_matrix, dist_coefs, rvecs, tvecs =\                                             
-    cv2.calibrateCamera(pattern_points, corners, images[0].shape, None, None)  # LLAMAMOS AL METODO DE CALIBRACION DE LA CAMARA     
+rms, camera_matrix, dist_coefs, rvecs, tvecs = cv2.calibrateCamera(pattern_points, corners, images[0].shape, None, None)  # LLAMAMOS AL METODO DE CALIBRACION DE LA CAMARA     
 
 np.save('camera_mat.npy', camera_matrix)
 np.save('dist_coefs.npy', dist_coefs)

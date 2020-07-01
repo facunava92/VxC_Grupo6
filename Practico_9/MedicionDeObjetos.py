@@ -12,7 +12,6 @@ def perspective(image, src_pts, dst_pts):
     return rectified
 
 def g_contour(image,ud_img):
-<<<<<<< HEAD:Practico_9/practico9.py
     #El operador laplaciano también es un operador derivado que se usa para encontrar bordes en una imagen. Es una máscara derivada de segundo orden. En esta máscara tenemos dos clasificaciones adicionales, una es Operador laplaciano positivo y otra es Operador laplaciano negativo.
 
     #A diferencia de otros operadores, Laplacian no sacó bordes en ninguna dirección en particular
@@ -24,10 +23,6 @@ def g_contour(image,ud_img):
 #Buena localización: la distancia entre los píxeles de borde detectados y los píxeles de borde reales deben minimizarse.
 #Respuesta mínima: solo una respuesta del detector por borde.
     edges = cv2.Canny(edges, 100, 300)   #detector de borde ....umbralizdo 100  Dado que la detección de bordes es susceptible al ruido en la imagen, el primer paso es eliminar el ruido en la imagen con un filtro gaussiano de 5x5. #100 umbral menor #300 el humbral mayor
-=======
-    edges = cv2.Laplacian(image, cv2.CV_8U, gray_img, ksize=5)
-    edges = cv2.Canny(edges, 100, 300)
->>>>>>> efe76e936b11743d61d5e081f5ef726f363748e7:Practico_9/MedicionDeObjetos.py
     contours, hierachy = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     #Método de aproximación de contorno
     #almacena absolutamente todos los puntos de contorno.
@@ -39,14 +34,7 @@ def g_contour(image,ud_img):
     for c in contours:
         if cv2.contourArea(c) < 300:  #El área de contorno sea menor al umbral 300 umbral mayor 
             continue
-<<<<<<< HEAD:Practico_9/practico9.py
         x, y, w, h = cv2.boundingRect(c) #dimenciones de los contornos Sea (x, y) la coordenada superior izquierda del rectángulo y (w, h) su ancho y alto.
-=======
-
-        x, y, w, h = cv2.boundingRect(c)
-        print (w,h)
-
->>>>>>> efe76e936b11743d61d5e081f5ef726f363748e7:Practico_9/MedicionDeObjetos.py
         cv2.rectangle(img, (x,y), (x+w, y+h), (0, 255, 0), 2)
         #print (w,h)
         base=round (w*patron ,1)
@@ -60,11 +48,7 @@ def g_contour(image,ud_img):
 
     horizontal_concat = np.concatenate((ud_img, img), axis=1)
     cv2.imshow('Resultado', horizontal_concat)
-<<<<<<< HEAD:Practico_9/practico9.py
-    cv2.imwrite('RESULTADO.png', horizontal_concat)
-=======
     cv2.imwrite('resultado.png', horizontal_concat)
->>>>>>> efe76e936b11743d61d5e081f5ef726f363748e7:Practico_9/MedicionDeObjetos.py
 
 img = cv2.imread('a_medir.jpg')
 bkup = img.copy()
@@ -76,7 +60,6 @@ while True:
         img = bkup.copy()
         m = bkup.copy()
         cv2.destroyAllWindows()
-<<<<<<< HEAD:Practico_9/practico9.py
         dst_pts = np.array([[53, 105], [253, 105], [253, 305], [53, 305]], dtype=np.float32) #  dst_pts (ptos destinos ) harcodeo para que esten en la misma linea y que sean equidistante  
         selected_points = ([[55,  105], [248,  136], [246, 326], [28, 310]])     # harcodeo los selected_point (pto 8 ) 
         
@@ -85,15 +68,6 @@ while True:
         gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  #paso a escala de grises
         gray_img = cv2.GaussianBlur(gray_img, (5,5), 11) #11 como una mascarita (es un bloque que se mueve ))(combolucion) sobre la imagen ,   El filtro decomvolucion gaussiano es un filtro de paso bajo que elimina los componentes de alta frecuencia se reducen.  La altura y el ancho deben ser impares y pueden tener valores diferente (osea el kernel) , Desviación estándar x , y  del kernel , 
         g_contour(gray_img,m)  # envio  gray_img  y "m" lo envio solo para concatenar (pegar) las imagenes 
-=======
-        dst_pts = np.array([[53, 105], [253, 105], [253, 305], [53, 305]], dtype=np.float32) 
-        selected_points = ([[55,  105], [248,  136], [246, 326], [28, 310]]) 
-        src_pts = np.array(selected_points, dtype=np.float32)
-        img = perspective(img, src_pts, dst_pts)
-        gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        gray_img = cv2.GaussianBlur(gray_img, (5, 5), 11)
-        g_contour(gray_img,m)
->>>>>>> efe76e936b11743d61d5e081f5ef726f363748e7:Practico_9/MedicionDeObjetos.py
     elif option == ord('g'):
         cv2.imwrite('rectificado.png', img)  #escribo la imgaen como rectificado.png
 
