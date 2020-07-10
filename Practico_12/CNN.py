@@ -5,10 +5,6 @@ from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Activation, BatchNormalization
 
 
-from keras import layers, models, optimizers
-
-train_dir = 'dataset/train'
-validation_dir = 'dataset/validation'
 train_datagen = ImageDataGenerator(
     rotation_range=15,
     rescale=1./255,
@@ -19,14 +15,16 @@ train_datagen = ImageDataGenerator(
     height_shift_range=0.1
     )
 
-test_datagen = ImageDataGenerator(rescale=1./255) # Note that validation data should not be augmented
+test_datagen = ImageDataGenerator(rescale=1./255) 
 
+train_dir = 'dataset/train'
 train_generator = train_datagen.flow_from_directory(
     train_dir,
     target_size=(128, 128),
     batch_size=50,
     class_mode='categorical')
 
+validation_dir = 'dataset/validation'
 validation_generator = test_datagen.flow_from_directory(
     validation_dir,
     target_size=(128, 128),
@@ -35,8 +33,8 @@ validation_generator = test_datagen.flow_from_directory(
 
 model = Sequential()
 
-model = models.Sequential()
-model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(128, 128, 3)))
+model = Sequential()
+model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(128, 128, 3)))
 model.add(BatchNormalization())
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.25))
@@ -55,12 +53,11 @@ model.add(Flatten())
 model.add(Dense(512, activation='relu'))
 model.add(BatchNormalization())
 model.add(Dropout(0.5))
-model.add(Dense(2, activation='softmax')) # 2 because we have cat and dog classes
+model.add(Dense(2, activation='softmax')) 
 
 model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
 
 model.summary()
-
 
 history = model.fit(
     train_generator,
